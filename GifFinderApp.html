@@ -1,0 +1,93 @@
+<!-- build a small JavaScript app that uses the Giphy API to search for GIFs.-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- load in google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Playfair+Display:900" rel="stylesheet">
+    <!-- load in setup -->
+    <link rel="stylesheet" href="styles/setup.css">
+    <!-- load in styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Gif Finder</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="heading-text">
+                <h1>The <br>Gif Finder</h1>
+                <h2>you need today</h2>
+            </div>
+            ​
+            <form action="#">
+                <label for="search-input">search keyword</label> ​
+                <div class="search-bar">
+                    <input type="text" placeholder="money" id="search-input">
+                    <input type="submit" value="search">
+                </div>
+            </form>
+        </header>
+        ​
+        <section class="results">
+        </section>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script>
+        const app = {};
+        app.key = "d6fOFH3OgD2ovgp5oyHh60h3CsiF718f";
+        app.results = $('.results');
+
+        app.resetForm = function() {
+            $("#search-input").val("").focus();
+        };
+        app.displayImages = function(data) {
+            data.forEach((gifObj) => {
+                console.log(gifObj);
+                const gifHtml = `
+                    <div className="gif-box">
+                        <div className="img-box">
+                            <img src="${gifObj.images.original_still.url}" alt="${gifObj.title}"/>
+                        </div>
+                    </div>
+                `;
+                this.results.append(gifHtml);
+            });
+        };
+
+        app.getImages = function(query) {
+            $.ajax({
+                url: "https://api.giphy.com/v1/gifs/search",
+                method: "GET",
+                dataType: "json",
+                data: {
+                    api_key: this.key,
+                    q: query
+                }
+            }).then((result) => {
+                this.results.empty();
+                this.displayImages(result.data);
+                this.resetForm();
+            });
+        };
+
+        app.init = function() {
+            $("form").on("submit", (e) => {
+                e.preventDefault();
+                const selection = $("input").val();
+                if (selection) {
+                    console.log(this);
+                    this.getImages(selection);
+                }
+            });
+        };
+        $(function() {
+            app.init();
+        });
+    </script>
+</body>
