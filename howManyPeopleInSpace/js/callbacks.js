@@ -28,12 +28,11 @@ function generateHTML(data) {
   `;
 }
 
-btn.addEventListener('click', () => {
+btn.addEventListener('click', (e) => {
     getJSON(astrosUrl, (json) => {
         json.people.map(peson => {
-            getJSON(wikiUrl + peson.name);
+            getJSON(wikiUrl + peson.name, generateHTML);
         });
     })
-
-
+    e.target.remove();
 });
