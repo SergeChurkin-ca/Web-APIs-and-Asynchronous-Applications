@@ -2,6 +2,7 @@ const express = require('express');
 
 const app = express();
 
+
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
@@ -9,7 +10,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/cards', (req, res) => {
-    res.render('card', { prompt: "Who is there?", hint: "Think about your secret." });
+    res.render('card', { prompt: "Who is there?" });
 });
 
 app.listen(3010, () => {
