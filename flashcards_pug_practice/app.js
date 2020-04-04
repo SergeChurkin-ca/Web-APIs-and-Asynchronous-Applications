@@ -1,14 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-    res.render('index');
+    const name = req.cookies.username;
+    res.render('index', { name });
 });
 
 app.get('/cards', (req, res) => {
@@ -20,10 +23,10 @@ app.get('/hello', (req, res) => {
 })
 
 app.post('/hello', (req, res) => {
-    console.dir(req.body)
-    res.render('hello')
+    res.cookie('username', req.body.username);
+    res.redirect('/');
 })
 
 app.listen(3009, () => {
-    console.log('The application is running on local host:3009')
+    console.log('The application is running on local host:3009');
 });
