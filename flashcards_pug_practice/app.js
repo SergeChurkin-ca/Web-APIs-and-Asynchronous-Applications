@@ -1,7 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.set('view engine', 'pug');
 
@@ -13,6 +15,15 @@ app.get('/cards', (req, res) => {
     res.render('card', { prompt: "Who is there?" });
 });
 
-app.listen(3010, () => {
-    console.log('The application is running on local host:3010')
+app.get('/hello', (req, res) => {
+    res.render('hello');
+})
+
+app.post('/hello', (req, res) => {
+    console.dir(req.body)
+    res.render('hello')
+})
+
+app.listen(3009, () => {
+    console.log('The application is running on local host:3009')
 });
