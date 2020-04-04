@@ -9,6 +9,20 @@ app.use(cookieParser());
 
 app.set('view engine', 'pug');
 
+app.use((req, res, next) => {
+    console.log("Hello");
+    next();
+});
+
+app.use((req, res, next) => {
+    console.log("world");
+    next();
+});
+
+
+
+
+
 app.get('/', (req, res) => {
     const name = req.cookies.username;
     if (name) {
@@ -41,6 +55,18 @@ app.post('/goodbye', (req, res) => {
     res.redirect('/hello');
 })
 
-app.listen(3009, () => {
-    console.log('The application is running on local host:3009');
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err, req, res, next) => {
+    res.locals.error = err;
+    res.status(err.status);
+    res.render('error', err);
+});
+
+app.listen(3000, () => {
+    console.log('The application is running on local host:3000');
 });
