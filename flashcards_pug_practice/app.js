@@ -16,12 +16,12 @@ app.use(mainRoutes);
 app.use('/cards', cardRoutes);
 
 app.use((req, res, next) => {
-    console.log("Hello");
+    console.log("It is ");
     next();
 });
 
 app.use((req, res, next) => {
-    console.log("world");
+    console.log("working");
     next();
 });
 
@@ -38,6 +38,6 @@ app.use((err, req, res, next) => {
     res.render('error');
 });
 
-app.listen(3002, () => {
-    console.log('The application is running on local host:3002');
+app.listen(3000, () => {
+    console.log('The application is running on local host:3000');
 });
