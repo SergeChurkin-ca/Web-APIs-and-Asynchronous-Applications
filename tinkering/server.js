@@ -9,3 +9,19 @@ app.get('/hello', (req, res) => {
 app.listen(3000, () => {
     console.log('The application is running')
 });
+
+// ---------------------------------
+
+app.post('/add', callBack);
+
+function callBack(req, res) {
+    res.send('POST receivd');
+}
+
+const data = [];
+
+app.post('animal', addAnimal);
+
+function addAnimal(req, res) {
+    data.push(req.body);
+}
